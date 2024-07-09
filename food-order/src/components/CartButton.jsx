@@ -1,3 +1,6 @@
+import { useContext } from 'react'
+import { CartContext } from '../store/cart-context'
+
 function CartButton() {
   const cartContext = useContext(CartContext)
 
@@ -15,3 +18,4 @@ function CartButton() {
   )
 }
 
+export default CartButton
