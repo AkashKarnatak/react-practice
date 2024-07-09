@@ -57,7 +57,7 @@ function Cart(props) {
         <div className='mt-4 flex justify-end gap-4'>
           <button
             type='button'
-            className={`w-28 rounded-full border border-orange-800 py-2 ${cart.length === 0 ? 'bg-orange-800 text-white' : 'text-orange-800'}`}
+            className={`w-28 rounded-full border border-orange-800 py-2 ${cart.length === 0 ? 'bg-orange-800 text-white' : 'text-orange-800'} hover:bg-orange-900 hover:text-white`}
             onClick={cartContext.hideModal}
           >
             Close
@@ -65,7 +65,7 @@ function Cart(props) {
           {cart.length !== 0 && (
             <button
               type='button'
-              className='w-28 rounded-full border border-orange-800 bg-orange-800 py-2 text-white'
+              className='w-28 rounded-full border border-orange-800 bg-orange-800 py-2 text-white hover:bg-orange-900'
               onClick={() => console.log('Ordering...')}
             >
               Order

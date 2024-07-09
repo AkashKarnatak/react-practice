@@ -27,14 +27,14 @@ function CartItem(props) {
         <div className='flex gap-2'>
           <button
             type='button'
-            className='rounded-lg border border-orange-800 px-5 text-2xl font-bold text-orange-800'
+            className='rounded-lg border border-orange-800 px-5 text-2xl font-bold text-orange-800 hover:bg-orange-800 hover:text-white'
             onClick={decrementCartItem}
           >
             -
           </button>
           <button
             type='button'
-            className='rounded-lg border border-orange-800 px-5 text-2xl font-bold text-orange-800'
+            className='rounded-lg border border-orange-800 px-5 text-2xl font-bold text-orange-800 hover:bg-orange-800 hover:text-white'
             onClick={incrementCartItem}
           >
             +
