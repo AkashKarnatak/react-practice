@@ -12,8 +12,8 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
-    "react/prop-types": "off",
-    "no-unused-vars": "off",
+    "react/prop-types": "off", // TODO: figure out a better way
+    "no-unused-vars": "off", // TODO: figure out a better way
     'react/jsx-no-target-blank': 'off',
     'react-refresh/only-export-components': [
       'warn',
