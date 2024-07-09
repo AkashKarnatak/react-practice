@@ -8,7 +8,7 @@ function Orders(props) {
 
   return (
     <Card
-      className={`flex w-[90%] max-w-[1200px] flex-col bg-white px-5 py-8 ${props.className}`}
+      className={`flex w-[90%] max-w-[1200px] flex-col bg-white px-5 py-8 ${props.className} animate-meals-appear`}
     >
       {cartContext.foodItems.map((item) => (
         <OrderItem key={item.id} item={item} />
