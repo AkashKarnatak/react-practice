@@ -1,0 +1,23 @@
+.expense-filter {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 10px;
+
+  .expense-filter-title {
+    display: inline;
+    font-size: 20px;
+    font-weight: 700;
+    color: white;
+  }
+
+  select {
+    background: white;
+    padding: 15px 40px;
+    border: 0;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+  }
+}

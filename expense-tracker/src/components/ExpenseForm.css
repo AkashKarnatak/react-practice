@@ -1,0 +1,49 @@
+.expense-form {
+  display: flex;
+  gap: 20px;
+
+  label {
+    font-weight: 700;
+    font-size: 20px;
+    color: white;
+  }
+
+  input {
+    font-size: 18px;
+    margin-top: 5px;
+    width: 100%;
+    border: 0;
+    padding: 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+}
+
+.expense-form-left {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 20px;
+}
+
+.expense-form-right {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: flex-end;
+
+  .expense-form-amount {
+    width: 100%;
+    flex-grow: 1;
+  }
+
+  #submit {
+    margin: 0;
+    width: fit-content;
+    height: fit-content;
+    padding: 15px 30px;
+    color: white;
+    font-weight: 700;
+    background: #C98686;
+  }
+}

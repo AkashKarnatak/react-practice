@@ -1,0 +1,6 @@
+.chart {
+  background: #F2B880;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+}
