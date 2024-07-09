@@ -2,12 +2,20 @@ import Card from './components/Card'
 import Orders from './components/Orders'
 import Cart from './components/Cart'
 import Nav from './components/Nav'
+import bgImg from './assets/restaurant.webp'
 
 function App() {
   return (
-    <div className='box-border flex min-h-svh flex-col items-center bg-[#222] font-roboto'>
+    <div className='box-border flex min-h-svh w-full flex-col items-center bg-[#222] font-roboto'>
       <Nav />
-      <Card className='mt-40 flex w-fit max-w-[850px] flex-col items-center gap-6 bg-[#333] p-8 text-center text-white'>
+      <div className='box-content h-[25rem] w-full overflow-hidden'>
+        <img
+          src={bgImg}
+          alt='background restaurant image'
+          className='h-[28rem] w-[120%] max-w-none -translate-x-16 -translate-y-24 -rotate-[4deg] object-cover'
+        />
+      </div>
+      <Card className='-mt-52 z-10 flex w-[90%] max-w-[850px] flex-col items-center gap-6 bg-[#333] p-8 text-center text-white'>
         <h1 className='mb-4 text-[2.5rem] font-bold'>
           Delicious food, Delivered to you
         </h1>
