@@ -15,14 +15,14 @@ function Cart(props) {
 
   return (
     <div
-      className={`fixed ${cartContext.isModalVisible ? 'flex' : 'hidden'} h-svh w-svw items-center justify-center bg-[rgba(0,0,0,0.5)]`}
+      className={`fixed ${cartContext.isModalVisible ? 'flex' : 'hidden'} z-40 h-svh w-svw items-center justify-center bg-[rgba(0,0,0,0.7)]`}
       onClick={(e) => {
         if (e.target != e.currentTarget) return
         cartContext.hideModal()
       }}
     >
       <Card
-        className={`flex w-full max-w-[800px] flex-col bg-white px-8 pb-6 pt-10 shadow-none ${props.className}`}
+        className={`flex w-full max-w-[800px] animate-modal-appear flex-col bg-white px-8 pb-6 pt-10 shadow-none ${props.className}`}
       >
         {cart.length === 0 && (
           <p className='text-3xl font-bold'>No items in cart</p>

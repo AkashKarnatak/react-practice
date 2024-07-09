@@ -7,7 +7,7 @@ export default {
         roboto: ['Roboto', 'sans'],
       },
       keyframes: {
-        'slide-in': {
+        'slide-in-up': {
           '0%': {
             opacity: '0',
             transform: 'translatey(5rem)'
@@ -16,10 +16,21 @@ export default {
             opacity: '1',
             transform: 'translatey(0)'
           }
+        },
+        'slide-in-down': {
+          '0%': {
+            opacity: '0',
+            transform: 'translatey(-5rem)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translatey(0)'
+          }
         }
       },
       animation: {
-        'meals-appear': 'slide-in 1s ease-out forwards',
+        'meals-appear': 'slide-in-up 1s ease-out forwards',
+        'modal-appear': 'slide-in-down 0.5s ease-out forwards',
       }
     },
   },
