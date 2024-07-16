@@ -26,11 +26,29 @@ export default {
             opacity: '1',
             transform: 'translatey(0)'
           }
-        }
+        },
+        'bump': {
+          '0%': {
+            transform: 'scale(1)'
+          },
+          '10%': {
+            transform: 'scale(0.9)'
+          },
+          '30%': {
+            transform: 'scale(1.1)'
+          },
+          '50%': {
+            transform: 'scale(1.15)'
+          },
+          '100%': {
+            transform: 'scale(1)'
+          }
+        },
       },
       animation: {
         'meals-appear': 'slide-in-up 1s ease-out forwards',
         'modal-appear': 'slide-in-down 0.5s ease-out forwards',
+        'bump': 'bump 0.3s ease-out forwards',
       }
     },
   },

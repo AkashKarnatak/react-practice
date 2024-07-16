@@ -6,7 +6,12 @@ function OrderItem(props) {
   const [quantity, setQuantity] = useState(1)
 
   const quantityChangeHandler = (e) => {
-    if (Number.isNaN(+e.target.value) || +e.target.value <= 0 || +e.target.value > 10) return
+    if (
+      Number.isNaN(+e.target.value) ||
+      +e.target.value <= 0 ||
+      +e.target.value > 10
+    )
+      return
     setQuantity(+e.target.value)
   }
 

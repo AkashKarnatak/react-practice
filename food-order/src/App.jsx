@@ -10,10 +10,11 @@ import { CartContext } from './store/cart-context'
 
 function App() {
   const cartContext = useContext(CartContext)
+  const { updateFoodItems } = cartContext
   useEffect(() => {
     // fetch food items list
-    cartContext.updateFoodItems(foodItems)
-  }, [ cartContext ])
+    updateFoodItems(foodItems)
+  }, [updateFoodItems])
 
   return (
     <div className='box-border flex min-h-svh w-full flex-col items-center bg-[#222] font-roboto'>
