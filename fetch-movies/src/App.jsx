@@ -3,7 +3,7 @@ import { useEffect, useState, useCallback } from 'react'
 function Card(props) {
   return (
     <div
-      className={`rounded-2xl shadow-[0_0_20px_10px_rgba(0,0,0,0.3)] ${props.className}`}
+      className={`rounded-2xl shadow-[0_0_20px_10px_rgba(0,0,0,0.3)] ${props.className || ''}`}
     >
       {props.children}
     </div>
@@ -13,7 +13,7 @@ function Card(props) {
 function Section(props) {
   return (
     <Card
-      className={`flex w-[min(90%,1200px)] flex-col items-center gap-8 bg-white py-16 ${props.className}`}
+      className={`flex w-[min(90%,1200px)] flex-col items-center gap-8 bg-white py-16 ${props.className || ''}`}
     >
       {props.children}
     </Card>
@@ -65,7 +65,7 @@ function MovieForm() {
           className='w-full rounded-2xl border border-gray-300 p-1 text-xl'
         />
       </div>
-      <Button>Add Movie</Button>
+      <Button type='submit'>Add Movie</Button>
     </form>
   )
 }
@@ -73,8 +73,8 @@ function MovieForm() {
 function Button(props) {
   return (
     <button
-      type='button'
-      className={`rounded-full bg-violet-950 px-16 py-6 text-3xl text-white hover:bg-violet-900 ${props.className}`}
+      type={props.type || 'button'}
+      className={`rounded-full bg-violet-950 px-16 py-6 text-3xl text-white hover:bg-violet-900 ${props.className || ''}`}
       onClick={props.onClick}
     >
       {props.children}
