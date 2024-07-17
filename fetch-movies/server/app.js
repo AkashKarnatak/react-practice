@@ -1,10 +1,15 @@
 import express from 'express'
+import cors from 'cors'
 
 const PORT = process.env.PORT || 8080
 
 const app = express()
 
-app.get('/api/films', (req, res) => {
+const corsOptions = {
+  origin: '*'
+}
+
+app.get('/api/films', cors(corsOptions), (_, res) => {
   res.send({
     movies: [
       {

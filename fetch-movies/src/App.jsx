@@ -115,20 +115,12 @@ function App() {
     setIsLoading(true)
     setError('')
     try {
-      const res = await fetch('https://swapi.dev/api/films')
+      const res = await fetch('http://localhost:8080/api/films')
       if (!res.ok) {
         throw new Error('Something went wrong!')
       }
-      const movies = (await res.json()).results
-      const transformedMovies = movies.map((x) => {
-        return {
-          id: x.episode_id,
-          title: x.title,
-          openingText: x.opening_crawl,
-          releaseDate: x.release_date,
-        }
-      })
-      setMovies(transformedMovies)
+      const movies = (await res.json()).movies
+      setMovies(movies)
     } catch (e) {
       setError(e.message)
     }
