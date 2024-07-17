@@ -20,9 +20,18 @@ function Section(props) {
   )
 }
 
-function MovieForm() {
+function MovieForm(props) {
   const formSubmitHandler = (e) => {
     e.preventDefault()
+
+    const formData = new FormData(e.target)
+    const formObj = Object.fromEntries(formData.entries())
+    props.onAddMovie({
+      id: Math.random(),
+      title: formObj.title,
+      openingText: formObj['opening-text'],
+      releaseDate: formObj['release-date'],
+    })
   }
 
   return (
@@ -143,7 +152,7 @@ function App() {
   return (
     <div className='flex min-h-svh flex-col items-center gap-8 bg-[#222] p-8 font-roboto'>
       <Section>
-        <MovieForm />
+        <MovieForm onAddMovie={(movie) => {console.log(movie)}} />
       </Section>
       <Section>
         <Button onClick={fetchMovieHandler}>Fetch Movies</Button>
