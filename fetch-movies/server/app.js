@@ -1,13 +1,27 @@
+import sqlite3 from 'sqlite3'
+import { open } from 'sqlite'
 import express from 'express'
 import cors from 'cors'
 
 const PORT = process.env.PORT || 8080
+const corsOptions = {
+  origin: '*',
+}
+
+async function initDB() {
+  const db = await open({
+    filename: './movies.db',
+    driver: sqlite3.Database,
+  })
+  if (!(await db.get('SELECT * FROM sqlite_master WHERE name="movies"'))) {
+    console.error('movies table not found! Run "node server/initDB.js"')
+    process.exit(1)
+  }
+  return db
+}
 
 const app = express()
-
-const corsOptions = {
-  origin: '*'
-}
+const db = await initDB()
 
 app.get('/api/films', cors(corsOptions), (_, res) => {
   res.send({
