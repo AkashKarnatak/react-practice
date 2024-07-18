@@ -33,6 +33,8 @@ app.get('/api/films', cors(corsOptions), async (_, res) => {
   }
 })
 
+app.options('/api/films', cors(corsOptions))
+
 app.post('/api/films', cors(corsOptions), express.json(), async (req, res) => {
   try {
     await db.run(
