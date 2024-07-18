@@ -6,6 +6,7 @@ import cors from 'cors'
 const PORT = process.env.PORT || 8080
 const corsOptions = {
   origin: '*',
+  allowHeaders: ['Content-Type'],
 }
 
 async function initDB() {
@@ -23,23 +24,27 @@ async function initDB() {
 const app = express()
 const db = await initDB()
 
-app.get('/api/films', cors(corsOptions), (_, res) => {
-  res.send({
-    movies: [
-      {
-        id: 1,
-        title: 'Some dummy title',
-        openingText: 'This is some random opening text',
-        releaseDate: '2022-12-11',
-      },
-      {
-        id: 2,
-        title: 'Some second dummy title',
-        openingText: 'This is some second random opening text',
-        releaseDate: '2022-12-14',
-      },
-    ],
-  })
+app.get('/api/films', cors(corsOptions), async (_, res) => {
+  try {
+    const movies = await db.all('SELECT * from movies')
+    res.send({ movies })
+  } catch (e) {
+    res.sendStatus(500)
+  }
+})
+
+app.post('/api/films', cors(corsOptions), express.json(), async (req, res) => {
+  try {
+    await db.run(
+      'INSERT INTO movies (title, openingText, releaseDate) VALUES (?, ?, ?)',
+      req.body.title,
+      req.body.openingText,
+      req.body.releaseDate,
+    )
+    res.sendStatus(200)
+  } catch (e) {
+    res.sendStatus(500)
+  }
 })
 
 app.listen(PORT, () => {
