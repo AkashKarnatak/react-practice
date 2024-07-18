@@ -20,18 +20,48 @@ function Section(props) {
   )
 }
 
-function MovieForm(props) {
-  const formSubmitHandler = (e) => {
+function MovieForm() {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
+
+  const postMovieHandler = async ({ title, openingText, releaseDate }) => {
+    setIsLoading(true)
+    setError('')
+    try {
+      const res = await fetch('http://localhost:8080/api/films', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title, openingText, releaseDate }),
+      })
+      if (!res.ok) {
+        throw new Error('Something went wrong!')
+      }
+    } catch (e) {
+      setError(e.message)
+    }
+    setIsLoading(false)
+  }
+
+  const formSubmitHandler = async (e) => {
     e.preventDefault()
 
     const formData = new FormData(e.target)
     const formObj = Object.fromEntries(formData.entries())
-    props.onAddMovie({
+
+    await postMovieHandler({
       id: Math.random(),
       title: formObj.title,
       openingText: formObj['opening-text'],
       releaseDate: formObj['release-date'],
     })
+  }
+
+  let status = ''
+
+  if (isLoading) {
+    status = <p className='text-2xl'>Sending...</p>
+  } else if (error !== '') {
+    status = <p className='text-2xl'>{error}</p>
   }
 
   return (
@@ -75,6 +105,7 @@ function MovieForm(props) {
         />
       </div>
       <Button type='submit'>Add Movie</Button>
+      {status}
     </form>
   )
 }
@@ -144,7 +175,7 @@ function App() {
   return (
     <div className='flex min-h-svh flex-col items-center gap-8 bg-[#222] p-8 font-roboto'>
       <Section>
-        <MovieForm onAddMovie={(movie) => {console.log(movie)}} />
+        <MovieForm />
       </Section>
       <Section>
         <Button onClick={fetchMovieHandler}>Fetch Movies</Button>
