@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useCallback } from 'react'
+import useRequest from '../hooks/use-request'
 
 const TaskContext = React.createContext({
   tasks: [],
@@ -13,51 +14,41 @@ const TaskContext = React.createContext({
 
 export function TaskContextProvider(props) {
   const [tasks, setTasks] = useState([])
-  const [fetchError, setFetchError] = useState('')
-  const [postError, setPostError] = useState('')
-  const [fetchLoading, setFetchLoading] = useState(false)
-  const [postLoading, setPostLoading] = useState(false)
 
-  const fetchTasksHandler = useCallback(async () => {
-    setFetchLoading(true)
-    setFetchError('')
-    try {
-      const res = await fetch('http://localhost:8080/api/tasks')
-      if (!res.ok) {
-        throw new Error('Something went wrong while fetching tasks!')
-      }
-      const data = await res.json()
-      setTasks(data)
-    } catch (e) {
-      setFetchError(e.message)
+  const {
+    requestHandler: fetchTasksHandler,
+    error: fetchError,
+    isLoading: fetchLoading,
+  } = useRequest(useCallback(async () => {
+    const res = await fetch('http://localhost:8080/api/tasks')
+    if (!res.ok) {
+      throw new Error('Something went wrong while fetching tasks!')
     }
-    setFetchLoading(false)
-  }, [])
+    const data = await res.json()
+    setTasks(data)
+  }, []))
 
-  const postTaskHandler = async (task) => {
-    setPostLoading(true)
-    setPostError('')
-    try {
-      const res = await fetch('http://localhost:8080/api/tasks', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          task,
-        }),
-      })
-      if (!res.ok) {
-        throw new Error('Something went wrong while posting new task!')
-      }
-      setTasks((prevTasks) => {
-        const newTasks = [...prevTasks]
-        newTasks.push({ id: Math.random(), task })
-        return newTasks
-      })
-    } catch (e) {
-      setPostError(e.message)
+  const {
+    requestHandler: postTaskHandler,
+    error: postError,
+    isLoading: postLoading,
+  } = useRequest(async (task) => {
+    const res = await fetch('http://localhost:8080/api/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        task,
+      }),
+    })
+    if (!res.ok) {
+      throw new Error('Something went wrong while posting new task!')
     }
-    setPostLoading(false)
-  }
+    setTasks((prevTasks) => {
+      const newTasks = [...prevTasks]
+      newTasks.push({ id: Math.random(), task })
+      return newTasks
+    })
+  })
 
   return (
     <TaskContext.Provider
