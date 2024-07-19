@@ -91,7 +91,12 @@ function Tasks() {
       </p>
     )
   } else if (tasks.length > 0) {
-    content = tasks.map((x) => <TaskItem key={x.id}>{x.task}</TaskItem>)
+    content = tasks.map((x) => (
+      <>
+        <TaskItem key={x.id}>{x.task}</TaskItem>
+        <hr className='' />
+      </>
+    ))
   }
 
   return <div className='flex flex-col gap-6'>{content}</div>
