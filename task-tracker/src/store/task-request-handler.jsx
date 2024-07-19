@@ -12,7 +12,6 @@ const TaskContext = React.createContext({
 })
 
 export function TaskContextProvider(props) {
-  console.log('something')
   const [tasks, setTasks] = useState([])
   const [fetchError, setFetchError] = useState('')
   const [postError, setPostError] = useState('')
@@ -49,6 +48,11 @@ export function TaskContextProvider(props) {
       if (!res.ok) {
         throw new Error('Something went wrong while posting new task!')
       }
+      setTasks((prevTasks) => {
+        const newTasks = [...prevTasks]
+        newTasks.push({ id: Math.random(), task })
+        return newTasks
+      })
     } catch (e) {
       setPostError(e.message)
     }

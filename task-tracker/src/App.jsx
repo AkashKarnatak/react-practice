@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext, useCallback } from 'react'
+import { useEffect, useContext } from 'react'
 import TaskContext from './store/task-request-handler'
 
 function Card(props) {
@@ -19,7 +19,7 @@ function Section(props) {
   )
 }
 
-function TaskForm(props) {
+function TaskForm() {
   const { postLoading, postError, postTaskHandler } = useContext(TaskContext)
   const formSubmitHandler = async (e) => {
     e.preventDefault()
@@ -27,7 +27,6 @@ function TaskForm(props) {
     const formData = new FormData(e.target)
     const formObj = Object.fromEntries(formData.entries())
     await postTaskHandler(formObj.task)
-    props.onAddTask()
   }
 
   let status = ''
@@ -67,7 +66,8 @@ function TaskItem(props) {
 }
 
 function Tasks() {
-  const { tasks, fetchLoading, fetchError, fetchTasksHandler } = useContext(TaskContext)
+  const { tasks, fetchLoading, fetchError, fetchTasksHandler } =
+    useContext(TaskContext)
 
   useEffect(() => {
     fetchTasksHandler()
@@ -83,7 +83,9 @@ function Tasks() {
     content = <p className='text-center text-2xl font-bold'>Loading...</p>
   } else if (fetchError) {
     content = (
-      <p className='text-center text-2xl font-bold text-red-600'>{fetchError}</p>
+      <p className='text-center text-2xl font-bold text-red-600'>
+        {fetchError}
+      </p>
     )
   } else if (tasks.length > 0) {
     content = tasks.map((x) => <TaskItem key={x.id}>{x.task}</TaskItem>)
