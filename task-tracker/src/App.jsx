@@ -1,4 +1,4 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import TaskContext from './store/task-request-handler'
 
 function Card(props) {
@@ -21,12 +21,14 @@ function Section(props) {
 
 function TaskForm() {
   const { postLoading, postError, postTaskHandler } = useContext(TaskContext)
+  const inputRef = useRef()
   const formSubmitHandler = async (e) => {
     e.preventDefault()
 
     const formData = new FormData(e.target)
     const formObj = Object.fromEntries(formData.entries())
     await postTaskHandler(formObj.task)
+    inputRef.current.value = ''
   }
 
   let status = ''
@@ -48,6 +50,7 @@ function TaskForm() {
           name='task'
           id='task'
           className='flex-grow border-b-[2px] border-[#222] p-2 text-2xl outline-none focus:border-b-[3px] focus:border-rose-900'
+          ref={inputRef}
         />
         <button
           type='submit'
