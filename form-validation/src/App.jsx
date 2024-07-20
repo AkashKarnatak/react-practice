@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import useInput from './hooks/use-input'
 
 function Card(props) {
   return (
@@ -17,48 +17,38 @@ function Section(props) {
 }
 
 function Form() {
-  const [name, setName] = useState('')
-  const [nameIsTouched, setNameIsTouched] = useState(false)
-  const [email, setEmail] = useState('')
-  const [emailIsTouched, setEmailIsTouched] = useState(false)
+  const {
+    value: name,
+    valueIsValid: nameIsValid,
+    valueHasError: nameHasError,
+    touchValue: touchName,
+    valueChangeHandler: nameChangeHandler,
+    valueBlurHandler: nameBlurHandler,
+    valueReset: nameReset,
+  } = useInput((name) => name.trim() !== '')
+  const {
+    value: email,
+    valueIsValid: emailIsValid,
+    valueHasError: emailHasError,
+    touchValue: touchEmail,
+    valueChangeHandler: emailChangeHandler,
+    valueBlurHandler: emailBlurHandler,
+    valueReset: emailReset,
+  } = useInput((email) => email.trim().includes('@'))
 
-  const nameIsValid = name.trim() !== ''
-  const emailIsValid = email.trim().includes('@')
-
-  const nameHasError = nameIsTouched && !nameIsValid
-  const emailHasError = emailIsTouched && !emailIsValid
-
-  const formHasError = nameHasError || emailHasError
-
-  const nameChangeHandler = (e) => {
-    setName(e.target.value)
-  }
-
-  const emailChangeHandler = (e) => {
-    setEmail(e.target.value)
-  }
-
-  const nameBlurHandler = (e) => {
-    setNameIsTouched(true)
-  }
-
-  const emailBlurHandler = (e) => {
-    setEmailIsTouched(true)
-  }
+  const formIsValid = nameIsValid && emailIsValid
 
   const formSubmitHandler = (e) => {
     e.preventDefault()
 
-    setNameIsTouched(true)
-    setEmailIsTouched(true)
+    touchName()
+    touchEmail()
 
-    if (!nameIsValid || !emailIsValid) return
+    if (!formIsValid) return
 
     // reset everything
-    setName('')
-    setNameIsTouched(false)
-    setEmail('')
-    setEmailIsTouched(false)
+    nameReset()
+    emailReset()
   }
 
   return (
@@ -99,7 +89,7 @@ function Form() {
       </div>
       <button
         type='submit'
-        className='w-fit rounded-xl bg-violet-800 px-6 py-2 text-2xl text-white hover:bg-violet-900'
+        className='w-fit rounded-xl bg-violet-800 px-6 py-2 text-2xl text-white hover:bg-violet-900 disabled:bg-gray-400 disabled:cursor-not-allowed'
       >
         Submit
       </button>
