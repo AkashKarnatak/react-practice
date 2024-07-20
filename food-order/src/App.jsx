@@ -3,16 +3,20 @@ import Meals from './components/Meals'
 import Cart from './components/Cart'
 import Nav from './components/Nav'
 import bgImg from './assets/restaurant.webp'
-import { useEffect } from 'react'
-import { useContext } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { CartContext } from './store/cart-context'
 
 function App() {
   const cartContext = useContext(CartContext)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+
   const { updateFoodItems } = cartContext
   useEffect(() => {
+    setIsLoading(true)
+    setError('')
     // fetch food items list
-    (async () => {
+    ;(async () => {
       try {
         const res = await fetch('http://localhost:8080/api/meals')
         if (!res.ok) {
@@ -22,9 +26,22 @@ function App() {
         updateFoodItems(data.meals)
       } catch (e) {
         console.error('Something went wrong\n', e.message)
+        setError(e.message)
+      } finally {
+        setIsLoading(false)
       }
     })()
   }, [updateFoodItems])
+
+  let content = <Meals className='my-12 box-border' />
+
+  if (isLoading) {
+    content = <p className='mt-12 text-2xl text-white'>Loading...</p>
+  } else if (error) {
+    content = (
+      <p className='mt-12 text-2xl text-red-500'>Something went wrong!</p>
+    )
+  }
 
   return (
     <div className='box-border flex min-h-svh w-full flex-col items-center bg-[#222] font-roboto'>
@@ -49,7 +66,7 @@ function App() {
           and of course by experienced chefs!
         </p>
       </Card>
-      <Meals className='my-12 box-border' />
+      {content}
       <Cart />
     </div>
   )
