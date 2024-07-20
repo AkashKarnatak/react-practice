@@ -4,7 +4,6 @@ import Cart from './components/Cart'
 import Nav from './components/Nav'
 import bgImg from './assets/restaurant.webp'
 import { useEffect } from 'react'
-import foodItems from './assets/foodItems'
 import { useContext } from 'react'
 import { CartContext } from './store/cart-context'
 
@@ -13,7 +12,18 @@ function App() {
   const { updateFoodItems } = cartContext
   useEffect(() => {
     // fetch food items list
-    updateFoodItems(foodItems)
+    (async () => {
+      try {
+        const res = await fetch('http://localhost:8080/api/meals')
+        if (!res.ok) {
+          throw new Error('Something went wrong!')
+        }
+        const data = await res.json()
+        updateFoodItems(data.meals)
+      } catch (e) {
+        console.error('Something went wrong\n', e.message)
+      }
+    })()
   }, [updateFoodItems])
 
   return (

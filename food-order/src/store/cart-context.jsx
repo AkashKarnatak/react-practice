@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 
 export const CartContext = React.createContext({
   foodItems: [],
@@ -16,9 +16,9 @@ export function CartContextProvider(props) {
   const [cart, setCart] = useState({})
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const updateFoodItems = (items) => {
+  const updateFoodItems = useCallback((items) => {
     setFoodItems(items)
-  }
+  }, [])
 
   const addHandler = (id, num) => {
     setCart((prevCart) => {
