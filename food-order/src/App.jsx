@@ -1,5 +1,5 @@
 import Card from './components/Card'
-import Orders from './components/Orders'
+import Meals from './components/Meals'
 import Cart from './components/Cart'
 import Nav from './components/Nav'
 import bgImg from './assets/restaurant.webp'
@@ -49,7 +49,7 @@ function App() {
           and of course by experienced chefs!
         </p>
       </Card>
-      <Orders className='my-12 box-border' />
+      <Meals className='my-12 box-border' />
       <Cart />
     </div>
   )

@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { CartContext } from '../store/cart-context'
 
-function OrderItem(props) {
+function MealItem(props) {
   const cartContext = useContext(CartContext)
   const [quantity, setQuantity] = useState(1)
 
@@ -49,4 +49,4 @@ function OrderItem(props) {
   )
 }
 
-export default OrderItem
+export default MealItem
