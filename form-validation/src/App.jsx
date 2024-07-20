@@ -64,7 +64,7 @@ function Form() {
           value={name}
           onChange={nameChangeHandler}
           onBlur={nameBlurHandler}
-          className={`rounded-lg border border-gray-300 p-2 text-xl outline-none focus:border-2 ${!nameHasError ? 'focus:border-violet-800 focus:bg-violet-300' : 'border-red-600 bg-red-300'}`}
+          className={`rounded-lg border border-gray-300 p-2 text-xl outline-none focus:border-2 ${!nameHasError ? 'focus:border-violet-800 focus:bg-violet-300' : 'border-red-600 bg-red-300 focus:border-orange-500 focus:bg-orange-200'}`}
         />
         {nameHasError && (
           <p className='text-xl text-red-600'>Name cannot be empty!</p>
@@ -81,7 +81,7 @@ function Form() {
           value={email}
           onChange={emailChangeHandler}
           onBlur={emailBlurHandler}
-          className={`rounded-lg border border-gray-300 p-2 text-xl outline-none ${!emailHasError ? 'focus:border-violet-800 focus:bg-violet-300' : 'border-red-600 bg-red-300'}`}
+          className={`rounded-lg border border-gray-300 p-2 text-xl outline-none focus:border-2 ${!emailHasError ? 'focus:border-violet-800 focus:bg-violet-300' : 'border-red-600 bg-red-300 focus:border-orange-500 focus:bg-orange-200'}`}
         />
         {emailHasError && (
           <p className='text-xl text-red-600'>Email needs to contain an @</p>
@@ -89,7 +89,7 @@ function Form() {
       </div>
       <button
         type='submit'
-        className='w-fit rounded-xl bg-violet-800 px-6 py-2 text-2xl text-white hover:bg-violet-900 disabled:bg-gray-400 disabled:cursor-not-allowed'
+        className='w-fit rounded-xl bg-violet-800 px-6 py-2 text-2xl text-white hover:bg-violet-900 disabled:cursor-not-allowed disabled:bg-gray-400'
       >
         Submit
       </button>
