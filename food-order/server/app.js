@@ -45,6 +45,27 @@ app.get('/api/meals', cors(corsOptions), async (_, res) => {
   }
 })
 
+app.options('/api/orders', cors(corsOptions))
+
+app.post('/api/orders', cors(corsOptions), express.json(), async (req, res) => {
+  try {
+    await db.run(
+      'INSERT INTO orders (firstName, lastName, email, address) VALUES (?, ?, ?, ?)',
+      req.body.firstName,
+      req.body.lastName,
+      req.body.email,
+      req.body.address,
+    )
+    res.sendStatus(200)
+  } catch (e) {
+    console.error(
+      'Something went wrong while inserting meals into database!\n',
+      e,
+    )
+    res.sendStatus(500)
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })

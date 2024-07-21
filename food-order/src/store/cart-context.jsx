@@ -9,6 +9,7 @@ export const CartContext = React.createContext({
   isModalVisible: false,
   showModal: () => {},
   hideModal: () => {},
+  clearCart: () => {},
 })
 
 export function CartContextProvider(props) {
@@ -36,6 +37,10 @@ export function CartContextProvider(props) {
     setIsModalVisible(false)
   }
 
+  const clearCart = () => {
+    setCart({})
+  }
+
   return (
     <CartContext.Provider
       value={{
@@ -46,6 +51,7 @@ export function CartContextProvider(props) {
         isModalVisible,
         showModal,
         hideModal,
+        clearCart,
       }}
     >
       {props.children}

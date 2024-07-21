@@ -11,10 +11,12 @@ async function initDB() {
     await db.exec(
       'CREATE TABLE meals (id INTEGER PRIMARY KEY, name TEXT NOT NULL, desc TEXT NOT NULL, cost TEXT NOT NULL)',
     )
+    await db.exec(
+      'CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY, firstName TEXT NOT NULL, lastName TEXT NOT NULL, email TEXT NOT NULL, address TEXT NOT NULL)',
+    )
     return db
   } catch (e) {
     console.error('Unable to initialize database\n', e)
-    await db.close()
     return process.exit(1)
   }
 }
