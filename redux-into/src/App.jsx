@@ -1,4 +1,5 @@
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { actions } from './store/redux-store'
 
 function Card(props) {
   return (
@@ -73,15 +74,28 @@ function UserProfile() {
 
 function Counter() {  
   const counter = useSelector(state => state.counter)
+  const dispatch = useDispatch()
+
+  const incrementHandler = () => {
+    dispatch({ type: actions.INCREMENT })
+  }
+
+  const increaseHandler = () => {
+    dispatch({ type: actions.INCREASE, payload: 5 })
+  }
+
+  const decrementHandler = () => {
+    dispatch({ type: actions.DECREMENT })
+  }
 
   return (
     <div className='flex flex-col items-center gap-8 p-4'>
       <h2 className='text-2xl font-bold'>REDUX COUNTER</h2>
       <p className='py-8 text-4xl font-bold'>{counter}</p>
       <div className='flex justify-center gap-8'>
-        <Button>Increment</Button>
-        <Button>Increase by 5</Button>
-        <Button>Decrement</Button>
+        <Button onClick={incrementHandler}>Increment</Button>
+        <Button onClick={increaseHandler}>Increase by 5</Button>
+        <Button onClick={decrementHandler}>Decrement</Button>
       </div>
       <div className='flex justify-center gap-8'>
         <Button>Toggle counter</Button>
