@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux'
-import { actions } from './store/redux-store'
+import { counterActions } from './store/counter'
 
 function Card(props) {
   return (
@@ -78,19 +78,19 @@ function Counter() {
   const dispatch = useDispatch()
 
   const incrementHandler = () => {
-    dispatch({ type: actions.INCREMENT })
+    dispatch(counterActions.increment())
   }
 
   const increaseHandler = () => {
-    dispatch({ type: actions.INCREASE, payload: 5 })
+    dispatch(counterActions.increase(5))
   }
 
   const decrementHandler = () => {
-    dispatch({ type: actions.DECREMENT })
+    dispatch(counterActions.decrement())
   }
 
   const toggleHandler = () => {
-    dispatch({ type: actions.TOGGLE })
+    dispatch(counterActions.toggle())
   }
 
   return (
