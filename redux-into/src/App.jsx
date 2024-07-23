@@ -1,3 +1,5 @@
+import { useSelector } from 'react-redux'
+
 function Card(props) {
   return (
     <div
@@ -69,11 +71,13 @@ function UserProfile() {
   )
 }
 
-function Counter() {
+function Counter() {  
+  const counter = useSelector(state => state.counter)
+
   return (
     <div className='flex flex-col items-center gap-8 p-4'>
       <h2 className='text-2xl font-bold'>REDUX COUNTER</h2>
-      <p className='py-8 text-4xl font-bold'>{'8'}</p>
+      <p className='py-8 text-4xl font-bold'>{counter}</p>
       <div className='flex justify-center gap-8'>
         <Button>Increment</Button>
         <Button>Increase by 5</Button>
