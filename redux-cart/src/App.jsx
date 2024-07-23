@@ -17,13 +17,9 @@ function Section(props) {
   return <Card className='m-12 w-[min(90%,800px)] p-4'>{props.children}</Card>
 }
 
-function Cart(props) {
+function Product() {
   const dispatch = useDispatch()
-
-  const hideModalHandler = (e) => {
-    if (e.target !== e.currentTarget) return
-    dispatch(modalActions.hide())
-  }
+  const cartNumItems = useSelector((state) => state.cart.numItems)
 
   const cartItemIncrementHandler = () => {
     dispatch(cartActions.increment())
@@ -32,42 +28,62 @@ function Cart(props) {
   const cartItemDecrementHandler = () => {
     dispatch(cartActions.decrement())
   }
+  return (
+    <div className='flex w-full flex-col gap-8 bg-[#333] p-6'>
+      <div className='flex items-center justify-between'>
+        <p className='text-3xl font-bold'>Testing</p>
+        <p className='text-2xl'>
+          <span className='font-bold'>$18.00</span>
+          <span className='text-xl italic'>($6.00/item)</span>
+        </p>
+      </div>
+      <div className='flex items-center justify-between'>
+        <p className='text-2xl font-bold'>x{cartNumItems}</p>
+        <div className='flex gap-2'>
+          <button
+            type='button'
+            className='rounded-lg border border-gray-500 px-6 py-2 hover:border-cyan-800 hover:bg-[#222]'
+            onClick={cartItemDecrementHandler}
+          >
+            -
+          </button>
+          <button
+            type='button'
+            className='rounded-lg border border-gray-500 px-6 py-2 hover:border-cyan-800 hover:bg-[#222]'
+            onClick={cartItemIncrementHandler}
+          >
+            +
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Cart() {
+  const dispatch = useDispatch()
+  const cartNumItems = useSelector((state) => state.cart.numItems)
+
+  const hideModalHandler = (e) => {
+    if (e.target !== e.currentTarget) return
+    dispatch(modalActions.hide())
+  }
 
   return (
     <div
       className='absolute flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.8)]'
       onClick={hideModalHandler}
     >
-      <div className='mt-16 flex w-[min(90%,700px)] animate-slide-in flex-col gap-8 rounded-lg bg-[#111] p-8 text-white'>
-        <h2 className='text-4xl font-bold'>Your Shopping Cart</h2>
-        <div className='flex flex-col gap-8 bg-[#333] p-6'>
-          <div className='flex items-center justify-between'>
-            <p className='text-3xl font-bold'>Testing</p>
-            <p className='text-2xl'>
-              <span className='font-bold'>$18.00</span>
-              <span className='text-xl italic'>($6.00/item)</span>
-            </p>
-          </div>
-          <div className='flex items-center justify-between'>
-            <p className='text-2xl font-bold'>x3</p>
-            <div className='flex gap-2'>
-              <button
-                type='button'
-                className='rounded-lg border border-gray-500 px-6 py-2 hover:border-cyan-800 hover:bg-[#222]'
-                onClick={cartItemDecrementHandler}
-              >
-                -
-              </button>
-              <button
-                type='button'
-                className='rounded-lg border border-gray-500 px-6 py-2 hover:border-cyan-800 hover:bg-[#222]'
-                onClick={cartItemIncrementHandler}
-              >
-                +
-              </button>
-            </div>
-          </div>
-        </div>
+      <div className='mt-16 flex w-[min(90%,700px)] animate-slide-in flex-col items-end gap-8 rounded-lg bg-[#111] p-8 text-white'>
+        <h2 className='w-full text-4xl font-bold'>Your Shopping Cart</h2>
+        {cartNumItems !== 0 && <Product />}
+        <button
+          type='button'
+          className='rounded-full border border-cyan-600 px-8 py-2 hover:animate-pop-out hover:border-2 hover:bg-cyan-400'
+          onClick={hideModalHandler}
+        >
+          Close
+        </button>
       </div>
     </div>
   )
