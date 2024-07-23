@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'
 import { counterActions } from './store/counter'
+import { authActions } from './store/auth'
 
 function Card(props) {
   return (
@@ -30,8 +31,15 @@ function Section(props) {
 }
 
 function LoginForm() {
+  const dispatch = useDispatch()
+
+  const loginHandler = (e) => {
+    e.preventDefault()
+    dispatch(authActions.login())
+  }
+
   return (
-    <form className='flex flex-col items-center gap-4'>
+    <form className='flex flex-col items-center gap-4' onSubmit={loginHandler}>
       <div className='flex w-full flex-col gap-1'>
         <label htmlFor='email' className='ml-1 text-xl font-bold'>
           Email
@@ -73,8 +81,8 @@ function UserProfile() {
 }
 
 function Counter() {
-  const counter = useSelector((state) => state.counter)
-  const showCounter = useSelector((state) => state.showCounter)
+  const counter = useSelector((state) => state.counter.counter)
+  const showCounter = useSelector((state) => state.counter.showCounter)
   const dispatch = useDispatch()
 
   const incrementHandler = () => {
@@ -110,34 +118,51 @@ function Counter() {
 }
 
 function Nav() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
+  const dispatch = useDispatch()
+
+  const logoutHandler = () => {
+    dispatch(authActions.logout())
+  }
+
   return (
     <div className='flex w-full justify-center bg-violet-800 text-white'>
       <div className='flex w-[min(90%,1600px)] items-center justify-between'>
         <h2 className='py-6 text-4xl font-bold'>Redux Auth</h2>
-        <ul className='flex items-center gap-8'>
-          <li className='text-xl'>My Products</li>
-          <li className='text-xl'>My Sales</li>
-          <li>
-            <Button className='!bg-yellow-500 !text-black hover:!bg-yellow-600'>
-              Logout
-            </Button>
-          </li>
-        </ul>
+        {isLoggedIn && (
+          <ul className='flex items-center gap-8'>
+            <li className='text-xl'>My Products</li>
+            <li className='text-xl'>My Sales</li>
+            <li>
+              <Button
+                className='!bg-yellow-500 !text-black hover:!bg-yellow-600'
+                onClick={logoutHandler}
+              >
+                Logout
+              </Button>
+            </li>
+          </ul>
+        )}
       </div>
     </div>
   )
 }
 
 function App() {
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn)
   return (
     <div className='flex min-h-svh flex-col items-center bg-[#222]'>
       <Nav />
-      <Section>
-        <LoginForm />
-      </Section>
-      <Section>
-        <UserProfile />
-      </Section>
+      {!isLoggedIn && (
+        <Section>
+          <LoginForm />
+        </Section>
+      )}
+      {isLoggedIn && (
+        <Section>
+          <UserProfile />
+        </Section>
+      )}
       <Section>
         <Counter />
       </Section>
