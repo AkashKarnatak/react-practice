@@ -14,31 +14,34 @@ function Card(props) {
 }
 
 function Section(props) {
-  return <Card className='m-12 w-[min(90%,800px)] p-4'>{props.children}</Card>
+  return <Card className='m-6 w-[min(90%,800px)] p-4'>{props.children}</Card>
 }
 
-function Product() {
+function CartItem({ id, name, price, quantity }) {
   const dispatch = useDispatch()
-  const cartNumItems = useSelector((state) => state.cart.numItems)
 
   const cartItemIncrementHandler = () => {
-    dispatch(cartActions.increment())
+    dispatch(cartActions.updateCartItems({ id, items: 1 }))
   }
 
   const cartItemDecrementHandler = () => {
-    dispatch(cartActions.decrement())
+    dispatch(cartActions.updateCartItems({ id, items: -1 }))
   }
   return (
     <div className='flex w-full flex-col gap-8 bg-[#333] p-6'>
       <div className='flex items-center justify-between'>
-        <p className='text-3xl font-bold'>Testing</p>
+        <p className='text-3xl font-bold'>{name}</p>
         <p className='text-2xl'>
-          <span className='font-bold'>$18.00</span>
-          <span className='text-xl italic'>($6.00/item)</span>
+          <span className='font-bold'>
+            ${parseFloat(price * quantity).toFixed(2)}
+          </span>
+          <span className='text-xl italic'>
+            (${parseFloat(price).toFixed(2)}/item)
+          </span>
         </p>
       </div>
       <div className='flex items-center justify-between'>
-        <p className='text-2xl font-bold'>x{cartNumItems}</p>
+        <p className='text-2xl font-bold'>x{quantity}</p>
         <div className='flex gap-2'>
           <button
             type='button'
@@ -62,7 +65,12 @@ function Product() {
 
 function Cart() {
   const dispatch = useDispatch()
-  const cartNumItems = useSelector((state) => state.cart.numItems)
+  const cart = useSelector((state) => state.cart.cart)
+  const products = useSelector((state) => state.product.products)
+  const filteredCart = Object.entries(cart).filter(
+    ([_, quantity]) => quantity > 0,
+  )
+  console.log(filteredCart.length)
 
   const hideModalHandler = (e) => {
     if (e.target !== e.currentTarget) return
@@ -76,7 +84,15 @@ function Cart() {
     >
       <div className='mt-16 flex w-[min(90%,700px)] animate-slide-in flex-col items-end gap-8 rounded-lg bg-[#111] p-8 text-white'>
         <h2 className='w-full text-4xl font-bold'>Your Shopping Cart</h2>
-        {cartNumItems !== 0 && <Product />}
+        {filteredCart.map(([id, quantity]) => (
+          <CartItem
+            key={id}
+            id={id}
+            name={products.find((x) => +x.id === +id).name}
+            price={products.find((x) => +x.id === +id).price}
+            quantity={quantity}
+          />
+        ))}
         <button
           type='button'
           className='rounded-full border border-cyan-600 px-8 py-2 hover:animate-pop-out hover:border-2 hover:bg-cyan-400'
@@ -91,8 +107,9 @@ function Cart() {
 
 function CartButton() {
   const dispatch = useDispatch()
-  const cartNumItems = useSelector((state) => state.cart.numItems)
   const cartIsBumping = useSelector((state) => state.cart.isBumping)
+  const cart = useSelector((state) => state.cart.cart)
+  const cartNumItems = Object.values(cart).reduce((acc, x) => acc + x, 0)
 
   useEffect(() => {
     if (cartNumItems === 0) return
@@ -134,23 +151,23 @@ function Nav() {
   )
 }
 
-function Products() {
+function Product({ id, name, desc, price }) {
   const dispatch = useDispatch()
 
   const addItemHandler = () => {
-    dispatch(cartActions.increment())
+    dispatch(cartActions.updateCartItems({ id, items: 1 }))
   }
 
   return (
     <div className='flex flex-col items-end gap-4 bg-white p-4'>
       <div className='flex w-full justify-between'>
-        <h2 className='text-3xl font-bold'>Test</h2>
+        <h2 className='text-3xl font-bold'>{name}</h2>
         <p className='rounded-full bg-black px-8 py-2 text-2xl font-bold text-white'>
-          $6.00
+          ${parseFloat(price).toFixed(2)}
         </p>
       </div>
       <div className='w-full'>
-        <p className='text-xl'>This is the first product - amazing!</p>
+        <p className='text-xl'>{desc}</p>
       </div>
       <button
         type='button'
@@ -165,17 +182,20 @@ function Products() {
 
 function App() {
   const modalIsVisible = useSelector((state) => state.modal.isVisible)
+  const products = useSelector((state) => state.product.products)
 
   return (
     <div className='flex min-h-svh flex-col items-center bg-[#333]'>
       <Nav />
       {modalIsVisible && <Cart />}
-      <h2 className='mt-8 text-3xl font-bold text-white'>
+      <h2 className='my-12 text-3xl font-bold text-white'>
         BUY YOUR FAVORITE PRODUCTS
       </h2>
-      <Section>
-        <Products />
-      </Section>
+      {products.map((x) => (
+        <Section key={x.id}>
+          <Product id={x.id} name={x.name} desc={x.desc} price={x.price} />
+        </Section>
+      ))}
     </div>
   )
 }
