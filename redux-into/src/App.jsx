@@ -72,8 +72,9 @@ function UserProfile() {
   )
 }
 
-function Counter() {  
-  const counter = useSelector(state => state.counter)
+function Counter() {
+  const counter = useSelector((state) => state.counter)
+  const showCounter = useSelector((state) => state.showCounter)
   const dispatch = useDispatch()
 
   const incrementHandler = () => {
@@ -88,17 +89,21 @@ function Counter() {
     dispatch({ type: actions.DECREMENT })
   }
 
+  const toggleHandler = () => {
+    dispatch({ type: actions.TOGGLE })
+  }
+
   return (
     <div className='flex flex-col items-center gap-8 p-4'>
       <h2 className='text-2xl font-bold'>REDUX COUNTER</h2>
-      <p className='py-8 text-4xl font-bold'>{counter}</p>
+      {showCounter && <p className='py-8 text-4xl font-bold'>{counter}</p>}
       <div className='flex justify-center gap-8'>
         <Button onClick={incrementHandler}>Increment</Button>
         <Button onClick={increaseHandler}>Increase by 5</Button>
         <Button onClick={decrementHandler}>Decrement</Button>
       </div>
       <div className='flex justify-center gap-8'>
-        <Button>Toggle counter</Button>
+        <Button onClick={toggleHandler}>Toggle counter</Button>
       </div>
     </div>
   )
