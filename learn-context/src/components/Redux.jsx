@@ -2,10 +2,16 @@ import { useContext } from 'react'
 import { Provider, useDispatch, useSelector } from 'react-redux'
 import { createStore } from 'redux'
 
-const initialState = { state: 0 }
+const initialState = { counter1: 0, counter2: 0, counter3: 0 }
 function reducer(state, action) {
-  if (action.type === 'change') {
-    return { state: state.state + 1 }
+  if (action.type === 'updateCounter1') {
+    return { ...state, counter1: state.counter1 + 1 }
+  }
+  if (action.type === 'updateCounter2') {
+    return { ...state, counter2: state.counter2 + 1 }
+  }
+  if (action.type === 'updateCounter3') {
+    return { ...state, counter3: state.counter3 + 1 }
   }
   return initialState
 }
@@ -23,44 +29,66 @@ function Button({ children, onClick }) {
   )
 }
 
-function Component1() {
+function Wrapper({ children }) {
+  console.log('wrapper rendered')
+  return (
+    <div className='flex gap-4 border border-orange-500 p-8'>{children}</div>
+  )
+}
+
+// ------------ USING redux ----------------
+
+function Counter1() {
   const dispatch = useDispatch()
+  const counter1 = useSelector((state) => state.counter1)
 
-  console.log('component 1 rendered')
+  console.log('counter 1 rendered')
   return (
-    <Button onClick={() => dispatch({ type: 'change' })}>Component 1</Button>
+    <Button onClick={() => dispatch({ type: 'updateCounter1' })}>
+      Counter 1 - {counter1}
+    </Button>
   )
 }
 
-function Component2() {
-  console.log('component 2 rendered')
+function Counter2() {
+  const dispatch = useDispatch()
+  const counter2 = useSelector((state) => state.counter2)
+
+  console.log('counter 2 rendered')
   return (
-    <div className='flex gap-4 border border-orange-500 p-8'>
-      <Button>Component 2</Button>
-      <Component3 />
-    </div>
+    <Button onClick={() => dispatch({ type: 'updateCounter2' })}>
+      Counter 2 - {counter2}
+    </Button>
   )
 }
 
-function Component3() {
-  console.log('component 3 rendered')
-  const state = useSelector((state) => state.state)
-  return <Button>Component 3 - {state}</Button>
+function Counter3() {
+  const dispatch = useDispatch()
+  const counter3 = useSelector((state) => state.counter3)
+
+  console.log('counter 3 rendered')
+  return (
+    <Button onClick={() => dispatch({ type: 'updateCounter3' })}>
+      Counter 3 - {counter3}
+    </Button>
+  )
 }
 
 function Redux() {
   return (
     <div>
-      <h2 className='text-4xl font-bold px-8 text-cyan-600'>Redux example</h2>
+      <h2 className='px-8 text-4xl font-bold text-cyan-600'>Redux example</h2>
       <div className='flex gap-6 p-8'>
         <Provider store={store}>
-          <Component1 />
-          <Component2 />
+          <Counter1 />
+          <Wrapper>
+            <Counter2 />
+            <Counter3 />
+          </Wrapper>
         </Provider>
       </div>
       <p className='p-8 text-2xl text-black'>
-        Only Component 3 will be re-rendered because its the only component
-        using the state
+        Clicking on counter 3 will only re-render counter 3 component
       </p>
     </div>
   )
