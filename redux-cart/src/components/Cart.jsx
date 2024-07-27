@@ -17,7 +17,7 @@ function Cart() {
 
   return (
     <div
-      className='absolute flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.8)]'
+      className='absolute z-10 flex h-full w-full items-center justify-center bg-[rgba(0,0,0,0.8)]'
       onClick={hideModalHandler}
     >
       <div className='mt-16 flex w-[min(90%,700px)] animate-slide-in flex-col items-end gap-8 rounded-lg bg-[#111] p-8 text-white'>

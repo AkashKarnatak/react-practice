@@ -14,6 +14,16 @@ export default {
             transform: 'translatey(0)',
           },
         },
+        'slide-up': {
+          '0%': {
+            opacity: 0,
+            transform: 'translatey(40px)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translatey(0)',
+          },
+        },
         'pop-out': {
           '0%': {
             transform: 'scale(1)',
@@ -42,6 +52,7 @@ export default {
       },
       animation: {
         'slide-in': 'slide-in 350ms ease-out forwards',
+        'slide-up': 'slide-up 500ms ease-out forwards',
         'pop-out': 'pop-out 100ms ease-out forwards',
         'bump': 'bump 250ms ease-out forwards',
       },
