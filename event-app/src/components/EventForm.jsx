@@ -1,5 +1,13 @@
+import { useNavigate } from "react-router-dom"
+
 const EventForm = (props) => {
+  const navigate = useNavigate()
   const { title, image, date, desc } = props.event
+
+  const cancelHandler = () => {
+    navigate('..')
+  }
+
   return (
     <div className='flex w-full justify-center'>
       <form className='flex w-[min(900px,90%)] flex-col items-end gap-8'>
@@ -53,6 +61,7 @@ const EventForm = (props) => {
           <button
             type='button'
             className='rounded-lg px-8 py-3 text-xl'
+            onClick={cancelHandler}
           >
             Cancel
           </button>
