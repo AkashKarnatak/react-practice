@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 
 const EventForm = (props) => {
   const navigate = useNavigate()
-  const { title, image, date, desc } = props.event
+  const { title, image, date, desc } = props.event || {}
 
   const cancelHandler = () => {
     navigate('..')
