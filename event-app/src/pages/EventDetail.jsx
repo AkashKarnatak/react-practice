@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
-import imgTemp from '../mpv-shot0001.jpg'
 
 const EventDetail = () => {
   const EVENTS = [
@@ -32,7 +31,12 @@ const EventDetail = () => {
 
   return (
     <div className='mt-16 flex flex-col items-center gap-8'>
-      <img src={event.img} alt={event.title} width='50%' className='aspect-video object-cover' />
+      <img
+        src={event.img}
+        alt={event.title}
+        width='50%'
+        className='aspect-video object-cover'
+      />
       <h2 className='text-4xl font-bold'>{event.title}</h2>
       <p className='text-xl italic'>{event.date}</p>
       <p className='text-xl'>{event.desc}</p>

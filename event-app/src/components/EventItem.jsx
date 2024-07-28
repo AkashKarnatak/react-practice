@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import imgTemp from '../mpv-shot0001.jpg'
 
 const EventItem = (props) => {
   const { id, img, title, desc, date } = props.event
