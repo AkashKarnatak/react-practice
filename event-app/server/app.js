@@ -65,6 +65,29 @@ app.get('/api/events/:id', cors(corsOptions), async (req, res) => {
   }
 })
 
+app.options('/api/events/new', cors(corsOptions))
+
+app.post('/api/events/new', cors(corsOptions), express.json(), async (req, res) => {
+  try {
+    await db.run(
+      'INSERT INTO events (title, image, date, desc) VALUES (?, ?, ?, ?)',
+      req.body.title,
+      req.body.image,
+      req.body.date,
+      req.body.desc,
+    )
+    setTimeout(() => {
+      res.sendStatus(200)
+    }, 1000)
+  } catch (e) {
+    console.error(
+      'Something went wrong while inserting event into database!\n',
+      e,
+    )
+    res.sendStatus(500)
+  }
+})
+
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
 })
