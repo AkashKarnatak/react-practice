@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 const Nav = () => {
   return (
-    <ul className='flex justify-center gap-8 p-4'>
+    <ul className='flex justify-center gap-8 p-4 text-xl'>
       <li>
         <NavLink
           to='/'
