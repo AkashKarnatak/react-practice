@@ -1,10 +1,16 @@
-import { Link } from "react-router-dom"
+import { useNavigate } from 'react-router-dom'
 
 const HomePage = () => {
+  const navigator = useNavigate()
+
+  const navigateHandler = () => {
+    navigator('/products')
+  }
+
   return (
     <>
       <div>HomePage</div>
-      <Link to="/products">Go to products page</Link>
+      <button type='button' onClick={navigateHandler}>Product page</button>
     </>
   )
 }
