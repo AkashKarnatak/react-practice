@@ -77,11 +77,31 @@ app.post('/api/events/new', cors(corsOptions), express.json(), async (req, res) 
       req.body.desc,
     )
     setTimeout(() => {
-      res.sendStatus(200)
+      res.sendStatus(201)
     }, 1000)
   } catch (e) {
     console.error(
       'Something went wrong while inserting event into database!\n',
+      e,
+    )
+    res.sendStatus(500)
+  }
+})
+
+app.options('/api/events/:id', cors(corsOptions))
+
+app.delete('/api/events/:id', cors(corsOptions), express.json(), async (req, res) => {
+  try {
+    await db.run(
+      'DELETE FROM events where id = ?',
+      req.body.eventId,
+    )
+    setTimeout(() => {
+      res.sendStatus(204)
+    }, 1000)
+  } catch (e) {
+    console.error(
+      'Something went wrong while deleting event from database!\n',
       e,
     )
     res.sendStatus(500)
