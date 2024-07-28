@@ -35,10 +35,30 @@ const db = await initDB()
 app.get('/api/events', cors(corsOptions), async (_, res) => {
   try {
     const events = await db.all('SELECT * FROM events')
-    res.send({ events })
+    setTimeout(() => {
+      res.send({ events })
+    }, 1000)
   } catch (e) {
     console.error(
       'Something went wrong while fetching events from database!\n',
+      e,
+    )
+    res.sendStatus(500)
+  }
+})
+
+app.get('/api/events/:id', cors(corsOptions), async (req, res) => {
+  try {
+    const event = await db.get(
+      'SELECT * FROM events where id = ?',
+      req.params.id,
+    )
+    setTimeout(() => {
+      res.send({ event })
+    }, 1000)
+  } catch (e) {
+    console.error(
+      'Something went wrong while fetching event from database!\n',
       e,
     )
     res.sendStatus(500)

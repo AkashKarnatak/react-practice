@@ -5,7 +5,6 @@ const EventItem = (props) => {
   const navigate = useNavigate()
 
   const clickHandler = () => {
-    console.log('clicked', id)
     navigate(`${id}`)
   }
 
