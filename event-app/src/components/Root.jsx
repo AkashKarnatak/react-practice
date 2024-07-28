@@ -1,9 +1,9 @@
-import { Outlet } from "react-router-dom"
-import Nav from "./Nav"
+import { Outlet } from 'react-router-dom'
+import Nav from './Nav'
 
 const Root = () => {
   return (
-    <div className='bg-[#222] min-h-svh text-white'>
+    <div className='min-h-svh bg-[#222] text-white font-roboto'>
       <Nav />
       <Outlet />
     </div>

@@ -2,12 +2,13 @@ import { NavLink } from 'react-router-dom'
 
 const Nav = () => {
   return (
-    <ul className='flex justify-center gap-6 p-6 text-xl'>
+    <div className='flex justify-center w-full'>
+    <ul className='flex w-[min(1500px,90%)] gap-6 p-6 text-xl'>
       <li>
         <NavLink
           to=''
           className={({ isActive }) =>
-            `hover:text-yellow-300 active:text-yellow-300 ${isActive ? 'text-yellow-300' : ''}`
+            `hover:text-yellow-500 hover:underline active:text-yellow-500 active:underline ${isActive ? 'text-yellow-500 underline' : ''}`
           }
           end
         >
@@ -18,13 +19,14 @@ const Nav = () => {
         <NavLink
           to='events'
           className={({ isActive }) =>
-            `hover:text-yellow-300 active:text-yellow-300 ${isActive ? 'text-yellow-300' : ''}`
+            `hover:text-yellow-500 hover:underline active:text-yellow-500 active:underline ${isActive ? 'text-yellow-500 underline' : ''}`
           }
         >
           Events
         </NavLink>
       </li>
     </ul>
+    </div>
   )
 }
 

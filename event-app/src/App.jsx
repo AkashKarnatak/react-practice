@@ -5,6 +5,7 @@ import EventDetail from './pages/EventDetail'
 import NewEvent from './pages/NewEvent'
 import EditEvent from './pages/EditEvent'
 import Root from './components/Root'
+import EventsRoot from './components/EventsRoot'
 
 const router = createBrowserRouter([
   {
@@ -12,10 +13,16 @@ const router = createBrowserRouter([
     element: <Root />,
     children: [
       { index: true, element: <Home /> },
-      { path: '/events', element: <Events /> },
-      { path: '/events/:id', element: <EventDetail /> },
-      { path: '/events/new', element: <NewEvent /> },
-      { path: '/events/:id/edit', element: <EditEvent /> },
+      {
+        path: 'events',
+        element: <EventsRoot />,
+        children: [
+          { index: true, element: <Events /> },
+          { path: ':id', element: <EventDetail /> },
+          { path: 'new', element: <NewEvent /> },
+          { path: ':id/edit', element: <EditEvent /> },
+        ],
+      },
     ],
   },
 ])
