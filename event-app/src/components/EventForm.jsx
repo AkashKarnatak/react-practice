@@ -1,4 +1,5 @@
-const EventForm = () => {
+const EventForm = (props) => {
+  const { title, image, date, desc } = props.event
   return (
     <div className='flex w-full justify-center'>
       <form className='flex w-[min(900px,90%)] flex-col items-end gap-8'>
@@ -11,6 +12,7 @@ const EventForm = () => {
             name='title'
             id='title'
             className='rounded-lg border border-gray-400 bg-[#444] p-2 text-xl text-white outline-none'
+            defaultValue={title}
           />
         </div>
         <div className='flex w-full flex-col gap-1'>
@@ -22,6 +24,7 @@ const EventForm = () => {
             name='img'
             id='img'
             className='rounded-lg border border-gray-400 bg-[#444] p-2 text-xl text-white outline-none'
+            defaultValue={image}
           />
         </div>
         <div className='flex w-full flex-col gap-1'>
@@ -33,6 +36,7 @@ const EventForm = () => {
             name='date'
             id='date'
             className='rounded-lg border border-gray-400 bg-[#444] p-2 text-xl text-white outline-none'
+            defaultValue={date}
           />
         </div>
         <div className='flex w-full flex-col gap-1'>
@@ -42,6 +46,7 @@ const EventForm = () => {
           <textarea
             rows={8}
             className='rounded-lg border border-gray-400 bg-[#444] p-2 text-xl text-white outline-none'
+            defaultValue={desc}
           />
         </div>
         <div className='flex gap-4'>
