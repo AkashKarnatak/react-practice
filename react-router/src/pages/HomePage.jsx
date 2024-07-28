@@ -4,13 +4,13 @@ const HomePage = () => {
   const navigator = useNavigate()
 
   const navigateHandler = () => {
-    navigator('/products')
+    navigator('products')
   }
 
   return (
     <div className='mt-16 flex flex-col items-center gap-6'>
       <div className='text-4xl font-bold'>My Home Page</div>
-      <Link to='/products' className='hover:underline'>
+      <Link to='products' className='hover:underline'>
         Go to products page
       </Link>
       <button

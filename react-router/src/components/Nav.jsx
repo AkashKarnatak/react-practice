@@ -5,17 +5,18 @@ const Nav = () => {
     <ul className='flex justify-center gap-8 p-4 text-xl'>
       <li>
         <NavLink
-          to='/'
+          to=''
           className={({ isActive }) =>
             `hover:text-yellow-300 active:text-yellow-300 ${isActive ? 'text-yellow-300' : ''}`
           }
+          end
         >
           Home
         </NavLink>
       </li>
       <li>
         <NavLink
-          to='/products'
+          to='products'
           className={({ isActive }) =>
             `hover:text-yellow-300 active:text-yellow-300 ${isActive ? 'text-yellow-300' : ''}`
           }
