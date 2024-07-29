@@ -3,7 +3,7 @@ import Nav from '../components/Nav'
 
 const Error = () => {
   const error = useRouteError()
-  let title = 'An expected error occurred while making request!'
+  let title = 'An unexpected error occurred while making request!'
   let message = error.data?.message || error.message
 
   if (error.status === 404) {

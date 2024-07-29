@@ -21,15 +21,15 @@ const newEventAction = async ({ request }) => {
         desc: data.desc,
       }),
     })
+    if (res.status === 422) {
+      return res
+    }
     if (!res.ok) {
       throw new Error('Something went wrong while posting new event!')
     }
     return redirect('..')
   } catch (e) {
-    throw json(
-      { message: e.message },
-      { status: 500 },
-    )
+    throw json({ message: e.message }, { status: 500 })
   }
 }
 

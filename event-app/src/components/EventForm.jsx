@@ -1,7 +1,10 @@
-import { useNavigate, Form } from "react-router-dom"
+import { useNavigate, useNavigation, useActionData, Form } from 'react-router-dom'
+import Spinner from './Spinner'
 
 const EventForm = (props) => {
   const navigate = useNavigate()
+  const navigation = useNavigation()
+  const data = useActionData()
   const { title, image, date, desc } = props.event || {}
 
   const cancelHandler = () => {
@@ -10,7 +13,10 @@ const EventForm = (props) => {
 
   return (
     <div className='flex w-full justify-center'>
-      <Form method='post' className='flex w-[min(900px,90%)] flex-col items-end gap-8'>
+      <Form
+        method='post'
+        className='flex w-[min(900px,90%)] flex-col items-end gap-8'
+      >
         <div className='flex w-full flex-col gap-1'>
           <label htmlFor='title' className='text-2xl'>
             Title
@@ -59,6 +65,7 @@ const EventForm = (props) => {
             defaultValue={desc}
           />
         </div>
+      { data && <p className='w-full text-xl text-red-400'>{data}</p>}
         <div className='flex gap-4'>
           <button
             type='button'
@@ -69,9 +76,14 @@ const EventForm = (props) => {
           </button>
           <button
             type='submit'
-            className='rounded-lg border border-gray-300 bg-white px-8 py-3 text-xl text-black'
+            className='w-[120px] rounded-lg border border-gray-300 bg-white px-8 py-3 text-xl text-black'
+            disabled={navigation.state !== 'idle'}
           >
-            Save
+            {navigation.state === 'submitting' ? (
+              <Spinner className='w-[25px] border-[3px] border-transparent border-t-gray-500' />
+            ) : (
+              'Save'
+            )}
           </button>
         </div>
       </Form>

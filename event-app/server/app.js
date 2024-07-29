@@ -67,35 +67,90 @@ app.get('/api/events/:id', cors(corsOptions), async (req, res) => {
 
 app.options('/api/events/new', cors(corsOptions))
 
-app.post('/api/events/new', cors(corsOptions), express.json(), async (req, res) => {
-  try {
-    await db.run(
-      'INSERT INTO events (title, image, date, desc) VALUES (?, ?, ?, ?)',
-      req.body.title,
-      req.body.image,
-      req.body.date,
-      req.body.desc,
-    )
-    setTimeout(() => {
-      res.sendStatus(201)
-    }, 1000)
-  } catch (e) {
-    console.error(
-      'Something went wrong while inserting event into database!\n',
-      e,
-    )
-    res.sendStatus(500)
-  }
-})
+app.post(
+  '/api/events/new',
+  cors(corsOptions),
+  express.json(),
+  async (req, res) => {
+    if (!req.body.title) {
+      return res.status(422).send('Invalid title')
+    }
+    if (!req.body.image) {
+      return res.status(422).send('Invalid image')
+    }
+    if (!req.body.date) {
+      return res.status(422).send('Invalid date')
+    }
+    if (!req.body.desc) {
+      return res.status(422).send('Invalid description')
+    }
+
+    try {
+      await db.run(
+        'INSERT INTO events (title, image, date, desc) VALUES (?, ?, ?, ?)',
+        req.body.title,
+        req.body.image,
+        req.body.date,
+        req.body.desc,
+      )
+      setTimeout(() => {
+        res.sendStatus(201)
+      }, 1000)
+    } catch (e) {
+      console.error(
+        'Something went wrong while inserting event into database!\n',
+        e,
+      )
+      res.sendStatus(500)
+    }
+  },
+)
 
 app.options('/api/events/:id', cors(corsOptions))
 
-app.delete('/api/events/:id', cors(corsOptions), express.json(), async (req, res) => {
+app.patch(
+  '/api/events/:id',
+  cors(corsOptions),
+  express.json(),
+  async (req, res) => {
+    if (!req.body.title) {
+      return res.status(422).send('Invalid title')
+    }
+    if (!req.body.image) {
+      return res.status(422).send('Invalid image')
+    }
+    if (!req.body.date) {
+      return res.status(422).send('Invalid date')
+    }
+    if (!req.body.desc) {
+      return res.status(422).send('Invalid description')
+    }
+
+    try {
+      await db.run(
+        'UPDATE events SET title = ?, image = ?, date = ?, desc = ? WHERE id = ?',
+        req.body.title,
+        req.body.image,
+        req.body.date,
+        req.body.desc,
+        req.params.id,
+      )
+      setTimeout(() => {
+        res.sendStatus(204)
+      }, 1000)
+    } catch (e) {
+      console.error(
+        'Something went wrong while updating event in database!\n',
+        e,
+      )
+      res.sendStatus(500)
+    }
+  },
+)
+
+app.delete('/api/events/:id', cors(corsOptions), async (req, res) => {
   try {
-    await db.run(
-      'DELETE FROM events where id = ?',
-      req.body.eventId,
-    )
+    await db.run('DELETE FROM events where id = ?', req.params.id)
     setTimeout(() => {
       res.sendStatus(204)
     }, 1000)

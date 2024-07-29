@@ -1,9 +1,16 @@
-import { useSubmit } from 'react-router-dom'
-import { useRouteLoaderData, json } from 'react-router-dom'
+import {
+  useRouteLoaderData,
+  useSubmit,
+  useNavigation,
+  json,
+  redirect,
+} from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import Spinner from '../components/Spinner'
 
 const EventDetail = () => {
   const submit = useSubmit()
+  const navigation = useNavigation()
   const data = useRouteLoaderData('event-loader')
   const event = data.event
 
@@ -26,8 +33,16 @@ const EventDetail = () => {
         <Link to='edit' className='underline'>
           Edit
         </Link>
-        <button type='button' className='underline'>
-          Delete
+        <button
+          type='button'
+          className='flex items-center gap-2 underline'
+          onClick={deleteHandler}
+          disabled={navigation.state !== 'idle'}
+        >
+          <span>Delete</span>
+          {navigation.state === 'submitting' && (
+            <Spinner className='inline-block w-[18px] border-[3px] border-transparent border-t-gray-500' />
+          )}
         </button>
       </div>
     </div>
@@ -46,6 +61,21 @@ const eventLoader = async ({ params }) => {
   }
 }
 
+const eventAction = async ({ params }) => {
+  try {
+    const res = await fetch(`http://localhost:8080/api/events/${params.id}`, {
+      method: 'DELETE',
+    })
+    if (!res.ok) {
+      throw new Error('Something went wrong when deleting event data!')
+    }
+    return redirect('..')
+  } catch (e) {
+    throw json({ message: e.message }, { status: 500 })
+  }
+}
+
 EventDetail.loader = eventLoader
+EventDetail.action = eventAction
 
 export default EventDetail
