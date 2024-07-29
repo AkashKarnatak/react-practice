@@ -37,7 +37,7 @@ app.get('/api/events', cors(corsOptions), async (_, res) => {
     const events = await db.all('SELECT * FROM events ORDER BY id DESC')
     setTimeout(() => {
       res.send({ events })
-    }, 1000)
+    }, 2000)
   } catch (e) {
     console.error(
       'Something went wrong while fetching events from database!\n',

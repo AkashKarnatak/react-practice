@@ -1,13 +1,13 @@
 import { useLoaderData, json } from 'react-router-dom'
 import EventList from '../components/EventList'
 
-const EventsPage = () => {
+const Events = () => {
   const data = useLoaderData()
   const events = data.events
 
   return (
     <div className='mt-16 flex flex-col items-center gap-6'>
-      <div className='mb-8 text-4xl font-bold'>Events Page</div>
+      <div className='mb-8 text-4xl font-bold'>All Events</div>
       <EventList events={events} />
     </div>
   )
@@ -25,6 +25,6 @@ const eventsLoader = async () => {
   }
 }
 
-EventsPage.loader = eventsLoader
+Events.loader = eventsLoader
 
-export default EventsPage
+export default Events

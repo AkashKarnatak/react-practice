@@ -5,7 +5,7 @@ const EventItem = (props) => {
   const navigate = useNavigate()
 
   const clickHandler = () => {
-    navigate(`${id}`)
+    navigate(`/events/${id}`)
   }
 
   return (

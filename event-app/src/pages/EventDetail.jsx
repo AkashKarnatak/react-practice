@@ -4,48 +4,50 @@ import {
   useNavigation,
   json,
   redirect,
+  defer,
 } from 'react-router-dom'
-import { Link } from 'react-router-dom'
-import Spinner from '../components/Spinner'
+import EventList from '../components/EventList'
+import { Await } from 'react-router-dom'
+import { Suspense } from 'react'
+import ExpandedEvent from '../components/ExpandedEvent'
 
 const EventDetail = () => {
   const submit = useSubmit()
   const navigation = useNavigation()
-  const data = useRouteLoaderData('event-loader')
-  const event = data.event
+  const { event, events } = useRouteLoaderData('event-loader')
 
   const deleteHandler = () => {
     submit(null, { method: 'DELETE' })
   }
 
   return (
-    <div className='mt-16 flex flex-col items-center gap-8'>
-      <img
-        src={event.image}
-        alt={event.title}
-        width='50%'
-        className='aspect-video object-cover'
-      />
-      <h2 className='text-4xl font-bold'>{event.title}</h2>
-      <p className='text-xl italic'>{event.date}</p>
-      <p className='text-xl'>{event.desc}</p>
-      <div className='mt-5 flex gap-6'>
-        <Link to='edit' className='underline'>
-          Edit
-        </Link>
-        <button
-          type='button'
-          className='flex items-center gap-2 underline'
-          onClick={deleteHandler}
-          disabled={navigation.state !== 'idle'}
-        >
-          <span>Delete</span>
-          {navigation.state === 'submitting' && (
-            <Spinner className='inline-block w-[18px] border-[3px] border-transparent border-t-gray-500' />
+    <>
+      <Suspense
+        fallback={<p className='py-8 text-center text-2xl'>Loading...</p>}
+      >
+        <Await resolve={event}>
+          {(loadedEvent) => (
+            <ExpandedEvent
+              event={loadedEvent}
+              onDelete={deleteHandler}
+              navigationState={navigation.state}
+            />
           )}
-        </button>
-      </div>
-    </div>
+        </Await>
+      </Suspense>
+      <Suspense
+        fallback={<p className='py-16 text-center text-2xl'>Loading...</p>}
+      >
+        <Await resolve={events}>
+          {(loadedEvents) => (
+            <div className='mt-16 flex flex-col items-center gap-6'>
+              <div className='mb-8 text-4xl font-bold'>All Events</div>
+              <EventList events={loadedEvents} />
+            </div>
+          )}
+        </Await>
+      </Suspense>
+    </>
   )
 }
 
@@ -55,7 +57,21 @@ const eventLoader = async ({ params }) => {
     if (!res.ok) {
       throw new Error('Something went wrong when fetching event data!')
     }
-    return res
+    const data = await res.json()
+    return data.event
+  } catch (e) {
+    throw json({ message: e.message }, { status: 500 })
+  }
+}
+
+const eventsLoader = async () => {
+  try {
+    const res = await fetch('http://localhost:8080/api/events')
+    if (!res.ok) {
+      throw new Error('Something went wrong fetching events data!')
+    }
+    const data = await res.json()
+    return data.events
   } catch (e) {
     throw json({ message: e.message }, { status: 500 })
   }
@@ -75,7 +91,13 @@ const eventAction = async ({ params }) => {
   }
 }
 
-EventDetail.loader = eventLoader
+EventDetail.loader = async ({ params }) => {
+  return defer({
+    event: await eventLoader({ params }),
+    events: eventsLoader(),
+  })
+}
+
 EventDetail.action = eventAction
 
 export default EventDetail
