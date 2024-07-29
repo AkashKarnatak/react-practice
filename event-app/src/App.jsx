@@ -6,11 +6,13 @@ import NewEvent from './pages/NewEvent'
 import EditEvent from './pages/EditEvent'
 import Root from './components/Root'
 import EventsRoot from './components/EventsRoot'
+import Error from './pages/Error'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Root />,
+    errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
       {
@@ -18,7 +20,7 @@ const router = createBrowserRouter([
         element: <EventsRoot />,
         children: [
           { index: true, element: <Events />, loader: Events.loader },
-          { path: 'new', element: <NewEvent /> },
+          { path: 'new', element: <NewEvent />, action: NewEvent.action },
           {
             path: ':id',
             id: 'event-loader',

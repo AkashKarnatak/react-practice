@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Form } from "react-router-dom"
 
 const EventForm = (props) => {
   const navigate = useNavigate()
@@ -10,7 +10,7 @@ const EventForm = (props) => {
 
   return (
     <div className='flex w-full justify-center'>
-      <form className='flex w-[min(900px,90%)] flex-col items-end gap-8'>
+      <Form method='post' className='flex w-[min(900px,90%)] flex-col items-end gap-8'>
         <div className='flex w-full flex-col gap-1'>
           <label htmlFor='title' className='text-2xl'>
             Title
@@ -24,13 +24,13 @@ const EventForm = (props) => {
           />
         </div>
         <div className='flex w-full flex-col gap-1'>
-          <label htmlFor='img' className='text-2xl'>
+          <label htmlFor='image' className='text-2xl'>
             Image
           </label>
           <input
             type='text'
-            name='img'
-            id='img'
+            name='image'
+            id='image'
             className='rounded-lg border border-gray-400 bg-[#444] p-2 text-xl text-white outline-none'
             defaultValue={image}
           />
@@ -53,6 +53,8 @@ const EventForm = (props) => {
           </label>
           <textarea
             rows={8}
+            id='desc'
+            name='desc'
             className='rounded-lg border border-gray-400 bg-[#444] p-2 text-xl text-white outline-none'
             defaultValue={desc}
           />
@@ -72,7 +74,7 @@ const EventForm = (props) => {
             Save
           </button>
         </div>
-      </form>
+      </Form>
     </div>
   )
 }

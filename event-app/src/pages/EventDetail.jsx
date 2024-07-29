@@ -1,9 +1,15 @@
+import { useSubmit } from 'react-router-dom'
 import { useRouteLoaderData, json } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 
 const EventDetail = () => {
+  const submit = useSubmit()
   const data = useRouteLoaderData('event-loader')
   const event = data.event
+
+  const deleteHandler = () => {
+    submit(null, { method: 'DELETE' })
+  }
 
   return (
     <div className='mt-16 flex flex-col items-center gap-8'>
@@ -29,19 +35,14 @@ const EventDetail = () => {
 }
 
 const eventLoader = async ({ params }) => {
-  let status = 500
   try {
     const res = await fetch(`http://localhost:8080/api/events/${params.id}`)
     if (!res.ok) {
-      status = res.status
-      throw new Error()
+      throw new Error('Something went wrong when fetching event data!')
     }
     return res
   } catch (e) {
-    return json(
-      { message: 'Something went wrong when fetching event data!' },
-      { status },
-    )
+    throw json({ message: e.message }, { status: 500 })
   }
 }
 

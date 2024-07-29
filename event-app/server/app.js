@@ -34,7 +34,7 @@ const db = await initDB()
 
 app.get('/api/events', cors(corsOptions), async (_, res) => {
   try {
-    const events = await db.all('SELECT * FROM events')
+    const events = await db.all('SELECT * FROM events ORDER BY id DESC')
     setTimeout(() => {
       res.send({ events })
     }, 1000)

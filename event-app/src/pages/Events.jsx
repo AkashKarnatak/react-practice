@@ -14,19 +14,14 @@ const EventsPage = () => {
 }
 
 const eventsLoader = async () => {
-  let status = 500
   try {
     const res = await fetch('http://localhost:8080/api/events')
     if (!res.ok) {
-      status = res.status
-      throw new Error()
+      throw new Error('Something went wrong fetching events data!')
     }
     return res
   } catch (e) {
-    return json(
-      { message: 'Something went wrong fetching events data' },
-      { status: 500 },
-    )
+    throw json({ message: e.message }, { status: 500 })
   }
 }
 
