@@ -7,6 +7,7 @@ import EditEvent from './pages/EditEvent'
 import Root from './components/Root'
 import EventsRoot from './components/EventsRoot'
 import Error from './pages/Error'
+import NewsLetter from './pages/NewsLetter'
 
 const router = createBrowserRouter([
   {
@@ -15,6 +16,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
+      { path: 'newsletter', element: <NewsLetter />, action: NewsLetter.action },
       {
         path: 'events',
         element: <EventsRoot />,
